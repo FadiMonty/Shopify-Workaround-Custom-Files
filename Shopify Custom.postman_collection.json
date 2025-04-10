@@ -1,0 +1,393 @@
+{
+	"info": {
+		"_postman_id": "eee75bc0-64fc-4aff-980e-f57f2aeaa03d",
+		"name": "2 - Shopify Custom",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37142185"
+	},
+	"item": [
+		{
+			"name": "Merchant",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/Merchant/get",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Merchant",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"merchant_key\": \"ADD MERCAHNT KEY HERE\",\r\n    \"merchant_pass\": \"ADD MERCAHNT PASSWORD HERE\",\r\n    \"access_token\": \"ADD SHOPIFY TOKEN HERE\",\r\n    \"shop_url\": \"https://145872-a6.myshopify.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/Merchant/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Merchant",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 5,\r\n    \"merchant_key\": \"ADD MERCAHNT KEY HERE\",\r\n    \"merchant_pass\": \"ADD MERCAHNT PASSWORD HERE\",\r\n    \"access_token\": \"ADD SHOPIFY TOKEN HERE\",\r\n    \"shop_url\": \"https://kidspirit.myshopify.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/Merchant/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Merchant",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/Merchant/delete?id=3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Merchant",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Shop",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shop_url\": \"https://monty-testing.myshopify.com/\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/Merchant/getByShop",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Merchant",
+								"getByShop"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Redirect URL",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shipping rates",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shop_url\": \"https://145872-a6.myshopify.com\",\r\n    \"country_name\": \"LB\",\r\n    \"cart\": {\r\n        \"note\": \"\",\r\n        \"attributes\": {},\r\n        \"original_total_price\": 2000,\r\n        \"total_price\": 2000,\r\n        \"total_discount\": 0,\r\n        \"total_weight\": 0,\r\n        \"item_count\": 1,\r\n        \"items\": [\r\n            {\r\n                \"id\": 41167804956805,\r\n                \"properties\": {},\r\n                \"quantity\": 1,\r\n                \"variant_id\": 41167804956805,\r\n                \"key\": \"41167804956805:5a8fcf06f584066041f8aad265e5835e\",\r\n                \"title\": \"Boho - 30x40 cm / No white border / No frame\",\r\n                \"price\": 2000,\r\n                \"original_price\": 2000,\r\n                \"discounted_price\": 2000,\r\n                \"line_price\": 2000,\r\n                \"original_line_price\": 2000,\r\n                \"total_discount\": 0,\r\n                \"discounts\": [],\r\n                \"sku\": null,\r\n                \"grams\": 0,\r\n                \"vendor\": \"By Mary Sahawneh\",\r\n                \"taxable\": false,\r\n                \"product_id\": 7137218134149,\r\n                \"product_has_only_default_variant\": false,\r\n                \"gift_card\": false,\r\n                \"final_price\": 2000,\r\n                \"final_line_price\": 2000,\r\n                \"url\": \"/products/boho?variant=41167804956805\",\r\n                \"featured_image\": {\r\n                    \"aspect_ratio\": 1,\r\n                    \"alt\": \"Boho\",\r\n                    \"height\": 1401,\r\n                    \"url\": \"//projectfann.com/cdn/shop/files/Artboard_1_08a397cc-5d23-4a9b-8d8a-550b46f30915.jpg?v=1742970802\",\r\n                    \"width\": 1401\r\n                },\r\n                \"image\": \"//projectfann.com/cdn/shop/files/Artboard_1_08a397cc-5d23-4a9b-8d8a-550b46f30915.jpg?v=1742970802\",\r\n                \"handle\": \"boho\",\r\n                \"requires_shipping\": true,\r\n                \"product_type\": \"\",\r\n                \"product_title\": \"Boho\",\r\n                \"product_description\": \"Experience the seamless fusion of artistry and craftsmanship with this exceptional piece from our curated collection.\\nCrafted using premium, sustainable materials, it guarantees lasting quality and vibrant colors. Each print/poster is meticulously designed to celebrate creativity from the MENA region, offering a contemporary take on traditional aesthetics.\\nIdeal for enhancing your living space, delighting art lovers with a thoughtful gift, or adding a touch of sophistication to your décor.\\nAvailable in various sizes, it’s the perfect fit for any space.\",\r\n                \"variant_title\": \"30x40 cm / No white border / No frame\",\r\n                \"variant_options\": [\r\n                    \"30x40 cm\",\r\n                    \"No white border\",\r\n                    \"No frame\"\r\n                ],\r\n                \"options_with_values\": [\r\n                    {\r\n                        \"name\": \"Size\",\r\n                        \"value\": \"30x40 cm\"\r\n                    },\r\n                    {\r\n                        \"name\": \"White border\",\r\n                        \"value\": \"No white border\"\r\n                    },\r\n                    {\r\n                        \"name\": \"Frame\",\r\n                        \"value\": \"No frame\"\r\n                    }\r\n                ],\r\n                \"line_level_discount_allocations\": [],\r\n                \"line_level_total_discount\": 0\r\n            }\r\n        ],\r\n        \"requires_shipping\": true,\r\n        \"currency\": \"JOD\",\r\n        \"items_subtotal_price\": 2000,\r\n        \"cart_level_discount_applications\": [],\r\n        \"checkout_charge_amount\": 2000\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://shopifyapp.montypay.com:8081/Merchant/getShippingRates",
+							"protocol": "https",
+							"host": [
+								"shopifyapp",
+								"montypay",
+								"com"
+							],
+							"port": "8081",
+							"path": [
+								"Merchant",
+								"getShippingRates"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/Order/get",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Order",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"merchant_id\": 1,\r\n    \"order_details\": {\r\n        \"test\": \"test\"\r\n    },\r\n    \"shop_url\": \"https://monty-testing.myshopify.com/\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/Order/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Order",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"merchant_id\": 1,\r\n    \"order_details\": {\r\n        \"test\": \"test\"\r\n    },\r\n    \"shop_url\": \"https://monty-testing.myshopify.com/\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/Order/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Order",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/Order/delete?id=2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Order",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Callback",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "ea65321a-f5d6-11ef-af29-12552c2163b3",
+									"type": "text"
+								},
+								{
+									"key": "order_number",
+									"value": "26",
+									"type": "text"
+								},
+								{
+									"key": "order_amount",
+									"value": "1379.90",
+									"type": "text"
+								},
+								{
+									"key": "order_currency",
+									"value": "GBP",
+									"type": "text"
+								},
+								{
+									"key": "order_description",
+									"value": "REVOLUTION+TRAINING+Test",
+									"type": "text"
+								},
+								{
+									"key": "order_status",
+									"value": "decline",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "sale",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "success",
+									"type": "text"
+								},
+								{
+									"key": "card",
+									"value": "411111%2A%2A%2A%2A1111",
+									"type": "text"
+								},
+								{
+									"key": "reason",
+									"value": "1242+Payment+methods+are+not+available.+Please+contact+our+customer+support.",
+									"type": "text"
+								},
+								{
+									"key": "card_expiration_date",
+									"value": "05%2F2038",
+									"type": "text"
+								},
+								{
+									"key": "custom_data",
+									"value": "{\"order_id\":\"6503383335243\"}",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/Order/callback",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Order",
+								"callback"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Order Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/Order/getByOrderId?order_id=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Order",
+								"getByOrderId"
+							],
+							"query": [
+								{
+									"key": "order_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "default"
+		}
+	]
+}
