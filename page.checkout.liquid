@@ -1,0 +1,1090 @@
+{% if cart.item_count > 0 %}
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+    crossorigin="anonymous"
+  >
+  <style>
+    #page-container{
+      display:flex !important;
+      background-color:white !important;
+      margin:0 !important;
+      z-index:1 !important;
+      justify-content:center !important;
+      background: rgb(255,255,255) !important;
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(245,245,245,1) 50%, rgba(245,245,245,1) 100%) !important;
+    }
+
+    #page-container *{
+      font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+      transition: all ease-in-out 0.3s !important;
+    }
+
+    #checkout-form{
+      display:flex !important;
+      max-width:1120px !important;
+    }
+
+    #form-container{
+      width:50% !important;
+      margin:0 !important;
+      padding:2rem 4rem !important;
+      display:flex !important;
+      justify-content:center !important;
+      align-items:center !important;
+    }
+
+    #form-container h2{
+      font-size:2.1rem !important;
+      font-weight:600 !important;
+      margin-bottom:1rem !important;
+      margin-top:1rem !important;
+    }
+
+    #form-container h3{
+      font-size:1.6rem !important;
+      font-weight:600 !important;
+      margin-top:1rem !important;
+    }
+
+    #cart-container{
+      width:50% !important;
+      margin:0 !important;
+      padding:2rem 4rem !important;
+      display:flex !important;
+      justify-content:flex-start !important;
+      align-items:flex-start !important;
+      flex-direction:column !important;
+      background-color:#f5f5f5 !important;
+    }
+
+    #cart-container #items{
+      width:100% !important;
+      margin-bottom:2rem !important;
+    }
+
+    #cart-container #items .item{
+      display:flex !important;
+      gap:1rem !important;
+      width:100% !important;
+      align-items:center !important;
+      justify-content:space-between !important;
+      margin-top:1.5rem !important;
+    }
+
+    #cart-container #items .item span{
+      font-size:1.25rem !important;
+    }
+
+    #cart-container #items .item .imgTitle{
+      display:flex !important;
+      align-items:center !important;
+      gap:1rem !important;
+    }
+
+    #cart-container #items .item .imgTitle p{
+      font-size:1.25rem !important;
+    }
+
+    #cart-container #items .item .imgTitle .image{
+      position:relative !important;
+    }
+
+    #cart-container #items .item .imgTitle .image img{
+      border-radius:8px !important;
+      border:solid 1px hsl(0, 0%, 87%) !important;
+    }
+
+    #cart-container #items .item .imgTitle .image .badge{
+      border:none !important;
+      padding:3px 5px !important;
+      color:#f5f5f5 !important;
+      background-color:#666666 !important;
+      border-radius:50% !important;
+      display:flex !important;
+      justify-content:center !important;
+      align-items:center !important;
+      aspect-ratio:1 !important;
+      position:absolute !important;
+      top:-5px !important;
+      right:-5px !important;
+    }
+
+    #cart-container #total{
+      display:flex !important;
+      flex-direction:column !important;
+      justify-content:flex-start !important;
+      align-items:flex-start !important;
+      width:100% !important;
+      gap:1rem !important;
+      margin-top:1rem !important;
+    }
+
+    #cart-container #total h4,p{
+      font-size:1.25rem !important;
+      font-weight: 400 !important;
+      margin:0 !important;
+    }
+
+    #cart-container #total #discount{
+      display:none !important;
+    }
+
+    #cart-container #total #ttl{
+      display:flex !important;
+      flex-wrap:nowrap !important;
+      justify-content:space-between !important;
+    }
+    #cart-container #total #ttl div{
+      width:80% !important;
+      display:flex !important;
+      flex-wrap: nowrap !important;
+      justify-content:flex-end !important;
+      align-items: flex-end !important;
+      gap:0.5rem !important;
+    }
+
+    #cart-container #total #ttl h4{
+      font-size:1.9rem !important;
+      font-weight: 600 !important;
+    }
+    #cart-container #total #ttl p{
+      font-size:1.9rem !important;
+      font-weight: 600 !important;
+    }
+    #cart-container #total #ttl span{
+      font-size:1.25rem !important;
+      font-weight: 400 !important;
+    }
+
+    #cart-container #total div{
+      display:flex !important;
+      width:100% !important;
+      justify-content:space-between !important;
+      align-items:center !important;
+    }
+    #cart-container #total div:nth-of-type(3){
+      display:none !important;
+    }
+
+    #checkout-form #form-container {
+      width:50% !important;
+      display:flex !important;
+      justify-content:flex-start !important;
+      align-items:flex-start !important;
+      flex-direction:column !important;
+    }
+
+    #checkout-form input, select{
+      width: 100% !important;
+      padding: 10px !important;
+      font-size: 1.25rem !important;
+      line-height: 1.5 !important;
+      color: #323232 !important;
+      background-color: #fff !important;
+      border: 1px solid #d9d9d9 !important;
+      border-radius: 8px !important;
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+    }
+
+    #checkout-form input:focus, select:focus{
+      border-color: #5c6ac4 !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+
+    #form-container #delivery-container{
+      display:flex !important;
+      flex-wrap:wrap !important;
+      gap:1.25rem !important;
+    }
+
+    #form-container #delivery-container input{
+       width:calc(50% - 0.7rem) !important;
+     }
+
+    #form-container #delivery-container input:nth-of-type(3) {
+      width: 100% !important;
+    }
+
+    /* #form-container #delivery-container input:last-of-type{
+       width:calc(100% - 0.7rem) !important;
+     } */
+
+    #form-container #shipping-container{
+      margin:1rem 0rem  !important;
+      width: 100% !important;
+      padding: 10px !important;
+      font-size: 1.25rem !important;
+      line-height: 1.5 !important;
+      color: #323232 !important;
+      background-color: #fff !important;
+      border: 1px solid #d9d9d9 !important;
+      border-radius: 8px !important;
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+    }
+    #form-container #shipping-container #shipping-methods{
+      font-size:1.25rem !important;
+      font-weight: 400 !important;
+      display: flex !important;
+      justify-content:space-between !important;
+      align-items:center !important;
+    }
+    #form-container #shipping-container #shipping-methods span:nth-of-type(2){
+      font-weight:600!important;
+    }
+
+    #form-container #payment-container{
+      width:100% !important;
+      display:flex !important;
+      justify-content:center !important;
+      align-items:flex-start !important;
+      flex-direction:column !important;
+    }
+
+    #form-container #payment-container p{
+       color:hsl(0, 0%, 44%) !important;
+       font-size:1.25rem !important;
+       margin:0 !important;
+       margin-bottom:1rem !important;
+     }
+    #form-container #payment-container label{
+      width:calc(100% - 13px) !important;
+      font-size:1.25rem !important;
+      margin:10px 0px !important;
+    }
+    #form-container #payment-container label:hover{
+       cursor: pointer !important;
+     }
+
+    #form-container #payment-container input{
+      width:13px !important;
+      accent-color:hsl(204, 79%, 30%) !important;
+      margin:10px !important;
+     }
+
+    #form-container #payment-container input:hover{
+       cursor: pointer !important;
+     }
+
+    #form-container #payment-container .option {
+      /* padding: 10px !important; */
+      border: 1px solid #ccc !important;
+      display: flex !important;
+      flex-wrap:nowrap !important;
+      gap:0.5rem !important;
+      cursor: pointer !important;
+      width:100% !important;
+      margin:0 !important;
+    }
+    #form-container #payment-container .option label{
+      display:flex !important;
+      justify-content:space-between !important;
+      align-items:center !important;
+      flex-wrap:nowrap !important;
+      gap:1rem !important;
+      padding-right:1rem !important;
+    }
+    #form-container #payment-container .option label div{
+      display:flex !important;
+      flex-wrap:nowrap !important;
+      justify-content:flex-end !important;
+      align-items: center !important;
+      gap:0.5rem !important;
+    }
+
+    #form-container #payment-container .option:first-of-type {
+      border-radius: 8px 8px 0px 0px !important;
+    }
+
+    #form-container #payment-container .option.selected {
+      background-color: #f0f5ff !important;
+      border: 1px solid hsl(204, 79%, 30%) !important;
+    }
+
+    #form-container #payment-container #cod-banner{
+      padding:1.4rem !important;
+      border-radius: 0px 0px 8px 8px !important;
+      background-color:#f4f4f4 !important;
+      width:100% !important;
+      text-align:center !important;
+      font-size:1.25rem !important;
+    }
+    #form-container #payment-container #payment-gateway-banner{
+      padding:1.4rem !important;
+      background-color:#f4f4f4 !important;
+      width:100% !important;
+      text-align:center !important;
+      font-size:1.25rem !important;
+    }
+    #form-container #payment-container #payment-gateway-banner p{
+      width:100% !important;
+      font-size:1.25rem !important;
+      text-align:center !important;
+      padding:0 10% !important;
+    }
+    #form-container #payment-container #payment-gateway-banner img{
+      height:10rem !important;
+      aspect-ratio:auto !important;
+      margin-bottom:2rem !important;
+      opacity:0.5 !important;
+    }
+    #form-container #payment-container #payment-gateway-banner img:nth-of-type(2){
+      height:3rem !important;
+      aspect-ratio:auto !important;
+      opacity:1 !important;
+    }
+
+    #checkout-form button{
+      width:100% !important;
+      background-color: #1773B0 !important;
+      color:white !important;
+      border:none !important;
+      border-radius:8px !important;
+      padding:14px !important;
+      font-weight:bold !important;
+      margin-top:2rem !important;
+    }
+
+    #checkout-form #form-container button:hover{
+      cursor: pointer !important;
+    }
+
+    #checkout-form button:disabled{
+      background-color: #f1f1f1 !important;
+      cursor: not-allowed !important;
+      color: #7a7a7a !important;
+      border: 1px #e5e5e5 solid !important;
+      font-weight:400 !important;
+      font-size:1.25rem !important;
+    }
+
+    #checkout-form #cart-container #coupon{
+      display: flex !important;
+      justify-content:flex-start !important;
+      align-items:center !important;
+      width:100% !important;
+      gap:1rem !important;
+    }
+
+    #checkout-form #cart-container #coupon input{
+      width:80% !important;
+      padding:30px 8px 15px 8px!important;
+    }
+
+    #checkout-form #cart-container #coupon button{
+      width:20% !important;
+      margin:0 !important;
+      font-size:1.25rem !important;
+    }
+
+    #checkout-form #cart-container #coupon button:hover{
+      cursor:pointer !important;
+    }
+
+    #checkout-form #cart-container #coupon label{
+      font-size:1.25rem !important;
+      position: absolute !important;
+      top: 6% !important;
+      color:#707083;
+    }
+
+    .submit-button{
+      font-size:1.25rem !important;
+    }
+    @media only screen and (max-width: 600px) {
+      #page-container{
+        background:#ffffff !important;
+      }
+
+      #checkout-form{
+        flex-direction:column !important;
+        width:100% !important;
+      }
+
+      #checkout-form #form-container{
+        width:100% !important;
+      }
+
+      #cart-container{
+        width:100% !important;
+      }
+
+      #cart-container #items{
+        width:100% !important;
+      }
+
+      #checkout-form #cart-container #coupon input{
+        width:80% !important;
+      }
+
+      #cart-container #total{
+        width:100% !important;
+      }
+
+      #form-container #delivery-container input{
+       width:100% !important;
+     }
+    }
+  </style>
+
+  <!-- Include CryptoJS Library -->
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script
+    async
+  >
+
+    function checkAndRemoveElement(){
+      // Function to get the current window width
+      var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
+      // Check the window width and log the appropriate message
+      if (windowWidth < 600) {
+        // console.log('This is a mobile device!');
+        // You can add JavaScript here to adjust elements for mobile users
+        // For example, hide a specific element on mobile
+        var elementToRemove = document.getElementById('desktop-submit-button');
+        elementToRemove.remove();
+        document.getElementById('mob-submit-button').style.display = 'block';
+      } 
+      else {
+        // console.log('This is a desktop device!');
+        // You can adjust the layout or show elements for larger screens
+        // For example, make a desktop-only element visible
+        var elementToRemove = document.getElementById('mob-submit-button');
+        document.getElementById('desktop-submit-button').style.display = 'block';
+        elementToRemove.remove();
+      }
+    };
+    
+    const shop_url='https://{{ shop.permanent_domain }}';
+    let shipping=0;
+    let shipping_name="Enter your shipping address to view available shipping"
+    let shipping_state=false;
+    // const backend_url="http://localhost:8081";
+    const backend_url="https://shopifyapp.montypay.com:8081";
+    const cart={{cart|json}};
+    // console.log("Cart:",cart)
+    
+    let total={{ cart.total_price}};
+    let discounted=false;
+
+    let coupon_data={};
+    let merchant_key,merchant_pass;
+
+    function setShipping(){
+      const shippingElement = document.getElementById("shipping-methods");
+      const shippingInCartElement = document.getElementById("shipping_in_cart");
+      if (shippingElement && shippingInCartElement) {
+        if(cart.currency==="JOD"){ 
+          shippingElement.innerHTML = `<span>${shipping_name}</span><span>${getCurrencySymbol()}${shipping.toFixed(3)}</span>`;
+          shippingInCartElement.textContent = `${getCurrencySymbol()}${shipping.toFixed(3)}`;
+        }
+        else{
+           shippingElement.innerHTML = `<span>${shipping_name}</span><span>${getCurrencySymbol()}${shipping.toFixed(2)}</span>`;
+          shippingInCartElement.textContent = `${getCurrencySymbol()}${shipping.toFixed(2)}`;
+        }
+      } 
+      else {
+          console.error("Shipping method div not found");
+      }
+      const totalElement = document.getElementById("total-cost");
+      if (totalElement) {
+        totalElement.textContent= ` ${getCurrencySymbol()}${total/100 + shipping}`;
+      } 
+      else {
+          console.error("Shipping method div not found");
+      }
+    };
+
+    function getCurrencySymbol(){
+      var currencyCode = '{{ shop.currency }}'; // Get the currency code
+      var currencySymbol;
+      var currencySymbols = {
+        'USD': '$',       // US Dollar
+        'EUR': '€',       // Euro
+        'GBP': '£',       // British Pound
+        'JPY': '¥',       // Japanese Yen
+        'AUD': 'A$',      // Australian Dollar
+        'CAD': '$',       // Canadian Dollar
+        'CHF': 'CHF',     // Swiss Franc
+        'CNY': '¥',       // Chinese Yuan
+        'INR': '₹',       // Indian Rupee
+        'MXN': '$',       // Mexican Peso
+        'BRL': 'R$',      // Brazilian Real
+        'ZAR': 'R',       // South African Rand
+        'SGD': '$',       // Singapore Dollar
+        'HKD': '$',       // Hong Kong Dollar
+        'NZD': '$',       // New Zealand Dollar
+        'SEK': 'kr',      // Swedish Krona
+        'NOK': 'kr',      // Norwegian Krone
+        'DKK': 'kr',      // Danish Krone
+        'ILS': '₪',       // Israeli New Shekel
+        'MYR': 'RM',      // Malaysian Ringgit
+        'PHP': '₱',       // Philippine Peso
+        'THB': '฿',       // Thai Baht
+        'TRY': '₺',       // Turkish Lira
+        'RUB': '₽',       // Russian Ruble
+        'KRW': '₩',       // South Korean Won
+        'PLN': 'zł',      // Polish Zloty
+        'IDR': 'Rp',      // Indonesian Rupiah
+        'COP': '$',       // Colombian Peso
+        'VND': '₫',       // Vietnamese Dong
+        'CLP': '$',       // Chilean Peso
+        'EGP': '£',       // Egyptian Pound
+        'SAR': 'ر.س',     // Saudi Riyal
+        'QAR': 'ر.ق',     // Qatari Riyal
+        'KWD': 'د.ك',     // Kuwaiti Dinar
+        'BHD': '.د.ب',    // Bahraini Dinar
+        'OMR': 'ر.ع.',    // Omani Rial
+        'KZT': '₸',       // Kazakhstani Tenge
+        'LKR': 'Rs',      // Sri Lankan Rupee
+        'AFN': '؋',       // Afghan Afghani
+        'PKR': 'Rs',      // Pakistani Rupee
+        'BDT': '৳',       // Bangladeshi Taka
+        'MMK': 'Ks',      // Myanmar Kyat
+        'XOF': 'CFA',     // West African CFA franc (used by countries in the CFA zone)
+        'XPF': 'CFP',     // CFP Franc (used in some Pacific islands)
+        'RON': 'lei',     // Romanian Leu
+        'HRK': 'kn',      // Croatian Kuna
+        'HUF': 'Ft',      // Hungarian Forint
+        'ISK': 'kr',      // Icelandic Krona
+        'BWP': 'P',       // Botswanan Pula
+        'GHS': '₵',       // Ghanaian Cedi
+        'UGX': 'UGX',     // Ugandan Shilling
+        'TZS': 'TSh',     // Tanzanian Shilling
+        'RWF': 'FRw',     // Rwandan Franc
+        'MWK': 'MK',      // Malawian Kwacha
+        'LBP': 'ل.ل',     // Lebanese Pound
+        'MAD': 'د.م.',    // Moroccan Dirham
+        'YER': '﷼',      // Yemeni Rial
+        'JOD': 'د.ا',     // Jordanian Dinar
+        'KPW': '₩',       // North Korean Won
+        'MNT': '₮',       // Mongolian Tugrik
+        'MMK': 'Ks',      // Myanmar Kyat
+        'AFN': '؋',       // Afghan Afghani
+      };
+      // Get the currency symbol for the current currency code
+      return currencySymbol = currencySymbols[currencyCode] || currencyCode; // Default to currency code if not found
+    };
+    
+    async function getData(){
+      try {
+        const response = await axios.post(`${backend_url}/Merchant/getByShop`, {"shop_url": shop_url}, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        merchant_key=response.data.merchant_key
+        merchant_pass=response.data.merchant_pass
+        access_token=response.data.access_token
+      }
+      catch (error) {
+        console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
+      }
+    };
+    
+    document.addEventListener("DOMContentLoaded", checkAndRemoveElement);
+    document.addEventListener("DOMContentLoaded", setShipping);
+    document.addEventListener("DOMContentLoaded", getData);
+
+    function intToFloat(num) {
+      const cur = cart.currency;
+        // if (cur === "JOD") {
+        //   let integerPart = Math.floor(num / 1000);  // part before the decimal
+        //   let decimalPart = num % 1000;              // last three digits
+        //   // Return a formatted string with exactly 3 decimals:
+        //   return `${integerPart}.${decimalPart.toString().padStart(3, '0')}`;
+        // } 
+        // else {
+          let integerPart = Math.floor(num / 100);   // part before the decimal
+          let decimalPart = num % 100;               // last two digits
+          // Return a formatted string with exactly 2 decimals:
+          return `${integerPart}.${decimalPart.toString().padStart(2, '0')}`;
+        // }    
+    };
+    console.log("Order Amount:",intToFloat(cart.checkout_charge_amount))
+    async function PayNow(e){
+      e.preventDefault();
+      // Extract values from the form
+      const emailInput = document.querySelector('input[type="email"]');
+      const firstNameInput = document.querySelector('input[placeholder="First Name"]');
+      const lastNameInput = document.querySelector('input[placeholder="Last Name"]');
+      const phoneInput = document.querySelector('input[placeholder="Phone Number"]');
+      const Address1Input = document.querySelector('input[placeholder="Address"]');
+      const Address2Input = document.querySelector('input[placeholder="Appartment, suite, etc. (optional)"]');
+      const CountryInput = document.querySelector('select');
+      const ZipInput = document.querySelector('input[placeholder="Postcode"]');
+      const CityInput = document.querySelector('input[placeholder="City"]');
+  
+      let customer_email = emailInput ? emailInput.value.trim() : "";
+      let first_name = firstNameInput ? firstNameInput.value.trim() : "";
+      let last_name = lastNameInput ? lastNameInput.value.trim() : "";
+      let phone = phoneInput ? phoneInput.value.trim() : "";
+      let address_1 = Address1Input ? Address1Input.value.trim() : "";
+      let address_2 = Address2Input ? Address2Input.value.trim() : "";
+      let country = CountryInput ? CountryInput.value.trim() : "";
+      let zip = ZipInput ? ZipInput.value.trim() : "";
+      let city = CityInput ? CityInput.value.trim() : "";
+      
+      let customer_name = `${first_name} ${last_name}`.trim();
+      
+      const url = `${backend_url}/Merchant/getRedirectURL`;
+      let data;
+      if(discounted){
+        const tempTotal=parseFloat(total)
+        data = {
+          shop_url:shop_url,
+          cancel_url: "https://merchantapp.montypay.com/paycancel",
+          success_url: `${shop_url}/pages/callback`,
+          order: {
+            amount: tempTotal,
+            currency: cart.currency
+          },
+          customer: {
+            name: customer_name,
+            email: customer_email
+          },
+          shipping_address: {
+            first_name: first_name,
+            last_name: last_name,
+            address1: address_1,
+            address2: address_2,
+            city: city,
+            country: country,
+            zip: zip,
+            phone:phone
+          },
+          items:cart.items,
+          shipping_rate:shipping,
+          applied_discount:coupon_data
+        };
+      }
+      else{
+        data = {
+          shop_url:shop_url,
+          cancel_url: "https://merchantapp.montypay.com/paycancel",
+          success_url: `${shop_url}/pages/callback`,
+          order: {
+            amount: intToFloat(cart.checkout_charge_amount),
+            currency: cart.currency
+          },
+          customer: {
+            name: customer_name,
+            email: customer_email
+          },
+          shipping_address: {
+            first_name: first_name,
+            last_name: last_name,
+            address1: address_1,
+            address2: address_2,
+            city: city,
+            country: country,
+            zip: zip,
+            phone:phone
+          },
+          items:cart.items,
+          shipping_rate:shipping
+        };
+      }
+
+      if (document.getElementById('cod').checked) {
+        try {
+          const response = await axios.post(`${backend_url}/Merchant/createCODOrder`, data, {
+              headers: {
+                  "Content-Type": "application/json"
+              }
+          });
+          if(response.data.redirect_url){
+            fetch('/cart/clear.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+            .then(response => response.json())
+            .then(data => console.log("Cart cleared!"))
+            .catch(error => console.error("Error clearing cart:", error));
+            
+            window.location.href=response.data.redirect_url;
+          }
+          else{
+          alert(`Error: ${response.data.errors[0].error_message}`)
+          }
+        } 
+        catch (error) {
+          console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
+        }
+      } 
+      else if (document.getElementById('online').checked) {
+        try {
+          const response = await axios.post(url, data, {
+              headers: {
+                  "Content-Type": "application/json"
+              }
+          });
+          if(response.data.redirect_url){
+            fetch('/cart/clear.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+            .then(response => response.json())
+            .then(data => console.log("Cart cleared!"))
+            .catch(error => console.error("Error clearing cart:", error));
+            
+            window.location.href=response.data.redirect_url;
+          }
+          else{
+            alert(`Error: ${response.data.errors[0].error_message}`)
+          }
+        } 
+        catch (error) {
+          console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
+        }
+      }
+    
+    };
+    
+    async function applyCoupon() {
+      // Your coupon logic here
+      const coupon_code = document.querySelector('input[placeholder="Discount code or gift card"]');
+      let code = coupon_code ? coupon_code.value.trim() : "";
+      const url = `${backend_url}/Merchant/getCouponData`;
+      const data = {
+        shop_url:shop_url,
+        code:code
+      };
+      try {
+        const response = await axios.post(url, data, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if(response.data.coupon_data){
+          // console.log("Coupon Data:",response.data.coupon_data)
+          coupon_data=response.data.coupon_data;
+          const discountElement = document.getElementById("discount");
+          if (discountElement) {
+            if(coupon_data.value_type==="percentage"){
+              if(coupon_data.target_type==="line_item"){ 
+                discountElement.textContent = `${coupon_data.value}% Off These Items`
+                const formula= 1 + (parseFloat(coupon_data.value)/100)
+                const tt=({{cart.total_price}} *formula)/100
+                total=tt.toFixed(2)
+                const totalElement = document.getElementById("total-cost");
+                if (totalElement) {
+                  totalElement.textContent = ` ${getCurrencySymbol()}${parseFloat(total) + shipping}`
+                  discounted=true
+                } 
+                else {
+                    console.error("Shipping method div not found");
+                }
+                
+              }
+              else if(coupon_data.target_type==="shipping_line"){
+                discountElement.textContent = `${coupon_data.value}% Off Shipping`;
+                shipping = 0;
+                setShipping();
+              }
+            }
+            if(coupon_data.value_type==="fixed_amount"){
+              var currencyCode = '{{ shop.currency }}'; // Get the currency code
+              const tt= {{cart.total_price}} + (parseFloat(coupon_data.value)*100)
+              if(tt>0){
+                discountElement.textContent = `${getCurrencySymbol()}${coupon_data.value} Off These Items`
+                const ttt=tt/100
+                total=ttt.toFixed(2);
+                const totalElement = document.getElementById("total-cost");
+                if (totalElement) {
+                  totalElement.textContent = ` ${getCurrencySymbol()}${(tt/100 + shipping).toFixed(2)}`
+                  discounted=true
+                } 
+                else {
+                  console.error("Shipping method div not found");
+                }
+              }
+              else{
+                alert("Amount Can Not Be Negative")
+              }
+            }
+          }
+          else {
+              console.error("Shipping method div not found");
+          }
+        }
+        else{
+          alert(`Error: ${response.data.errors[0].error_message}`)
+        }
+      } 
+      catch (error) {
+        console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
+      }       
+    };
+
+    function activateCoupon(){
+      console.log("Change")
+      const couponButton= document.querySelector("#apply-coupon");
+      const coupon_code = document.querySelector('input[placeholder="Discount code or gift card"]');
+      if(coupon_code.value !=""){
+        couponButton.disabled=false;
+      }
+      else{
+        couponButton.disabled=true;
+      }
+    };
+
+    async function getShippingRates(){
+       // e.preventDefault();
+       const CountryInput = document.querySelector('select');
+        let country = CountryInput ? CountryInput.value.trim() : "";
+      try {
+        const response = await axios.post(`${backend_url}/Merchant/getShippingRates`, {"shop_url": shop_url,"country_name":country,"cart":cart}, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        // console.log("Shipping Rate:",response.data.shipping_rate)
+        // console.log("Cart Weight:",cart.total_weight)
+        
+        const shipping_rate=response.data.shipping_rate;
+        // console.log("Shipping Rate:",shipping_rate)
+        shipping=parseFloat(shipping_rate.price);
+        shipping_name=shipping_rate.name;
+        setShipping();
+        shipping_state=true;
+         var submitButton = document.querySelector('.submit-button');
+        submitButton.disabled = false;
+        if(document.getElementById('cod').checked){
+          submitButton.textContent = "Complete Payment";
+        }
+        else if(document.getElementById('online').checked){
+          submitButton.textContent = "Pay Now";
+        }
+      }
+      catch (error) {
+        console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
+      }
+    };
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      const checkoutForm = document.getElementById("checkout-form");
+      if (checkoutForm) {
+        checkoutForm.addEventListener("submit", PayNow);
+      }
+    });
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("apply-coupon").addEventListener("click", async function(event) {
+          event.preventDefault();
+          await applyCoupon()
+        });
+    });
+  </script>
+
+  <div id="page-container">
+    <form id="checkout-form">
+      <div id="form-container">
+        <h2>Contact</h2>
+        <input type="email" placeholder="Email Address" required>
+
+        <h2>Delivery</h2>
+        <div id="delivery-container">
+          <select required id="country" onchange="getShippingRates()">
+            <option value="" selected disabled>Country/Region</option>
+            {% for country in localization.available_countries -%}
+              <option value="{{ country.iso_code }}">{{ country }}</option>
+            {%- endfor %}
+          </select>
+
+          <input type="text" class="input" placeholder="First Name" required>
+          <input type="text" placeholder="Last Name" required>
+          <input type="text" placeholder="Address" required>
+          <input type="tel" placeholder="Phone Number" required>
+          <input type="text" placeholder="Appartment, suite, etc. (optional)">
+          <input type="text" placeholder="City" required>
+          <input type="text" placeholder="Postcode" required>
+        </div>
+
+        <h3>Shipping method</h3>
+        <div id="shipping-container">
+          <div id="shipping-methods"></div>
+        </div>
+
+        <h2>Payment</h2>
+        <div id="payment-container">
+          <p>All transactions are secure and encrypted.</p>
+          <div class="option">
+            <input type="radio" id="online" name="payment_method" value="online">
+            <label for="online"
+              ><span> Online Payments Powered By MontyPay </span>
+              <div>
+                <img
+                  width="38"
+                  height="24"
+                  src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/visa.sxIq5Dot.svg"
+                  alt="Visa"
+                >
+                <img
+                  width="38"
+                  height="24"
+                  src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/master.CzeoQWmc.svg"
+                  alt="Master Card"
+                >
+                <img
+                  width="38"
+                  height="24"
+                  src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/american_express.C3z4WB9r.svg"
+                  alt="American Express"
+                >
+                <!--
+                  <img
+                    width="38"
+                    height="24"
+                    src="https://montypaydev.com/global_assets/images/apple-pay1.svg"
+                    alt="Apple Pay"
+                  >
+                -->
+              </div>
+            </label>
+          </div>
+          <div id="payment-gateway-banner"></div>
+          <div class="option">
+            <input type="radio" id="cod" name="payment_method" value="cod">
+            <label for="cod">Cash on Delivery (COD) </label>
+          </div>
+          <div id="cod-banner"></div>
+        </div>
+
+        <!-- Initial submit button (default state) -->
+        <button type="submit" id="desktop-submit-button" class="submit-button" disabled>Select a payment method</button>
+      </div>
+      <div id="cart-container">
+        <div id="items">
+          {% for item in cart.items %}
+            <div class="item">
+              <div class="imgTitle">
+                <div class="image">
+                  <img
+                    src="{{ item.image |image_url: width: 64, height: 64 }}"
+                    loading="eager"
+                    alt="{{ item.featured_image.alt }}"
+                    width="64"
+                    height="64"
+                  >
+                  <div class="badge">{{ item.quantity }}</div>
+                </div>
+                <p>{{ item.title }}</p>
+              </div>
+              <span>{{ item.line_price | money }}</span>
+            </div>
+          {% endfor %}
+        </div>
+        <div id="coupon" class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingInput"
+            placeholder="Discount code or gift card"
+            oninput="activateCoupon()"
+          >
+          <label for="floatingInput">Discount code or gift card</label>
+          <button id="apply-coupon" type="button" disabled>Apply</button>
+        </div>
+        <div id="total">
+          <div>
+            <h4>Subtotal</h4>
+            <p>{{ cart.total_price | money }}</p>
+          </div>
+          <div>
+            <h4>Shipping</h4>
+            <p id="shipping_in_cart"></p>
+          </div>
+          <div>
+            <h4>Discount</h4>
+            <p id="discount">0</p>
+          </div>
+          <div id="ttl">
+            <h4>Total</h4>
+            <div>
+              <span>{{ shop.currency }}</span>
+              <p id="total-cost"></p>
+            </div>
+          </div>
+        </div>
+        <button type="submit" id="mob-submit-button" class="submit-button" disabled>Select a payment method</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    // JavaScript to handle button change based on the radio button selection
+    document.querySelectorAll('input[name="payment_method"]').forEach(function(radioButton) {
+      radioButton.addEventListener('change', function() {
+        var submitButton = document.querySelector('.submit-button');
+        var codBanner = document.querySelector('#cod-banner')
+        var paymentGatewayBanner = document.querySelector('#payment-gateway-banner')
+
+        // Check which radio button is selected and enable the submit button
+        if (document.getElementById('cod').checked) {
+          paymentGatewayBanner.innerHTML="";
+          codBanner.innerHTML=`Cash On Delivery`
+          if(shipping_state==false){
+            submitButton.textContent = "Please Enter Full Address"; // Cash on Delivery selected
+          }
+          else{
+            submitButton.textContent = "Complete Payment"; // Cash on Delivery selected
+          }
+        } 
+        else if (document.getElementById('online').checked) {
+          codBanner.innerHTML=``
+          // paymentGatewayBanner.innerHTML=`Powered By <img src="https://montypaydev.com/global_assets/images/mp_logo_bg_trans.png" alt="MontyPay">`;
+          paymentGatewayBanner.innerHTML=`<img src="https://montypaydev.com/global_assets/images/Shopify_module.png" alt="MontyPay"><p>After clicking “Pay now”, you will be redirected to Online Payments powered by MontyPay to complete your purchase securely.</p><img src="https://montypaydev.com/global_assets/images/mp_logo_bg_trans.png" alt="MontyPay">`;
+    
+          if(shipping_state==false){
+            submitButton.textContent = "Please Enter Full Address"; // Cash on Delivery selected
+          }
+          else{
+            submitButton.textContent = "Pay Now"; // Cash on Delivery selected
+          }
+        }
+      });
+    });
+
+    // Ensure form submission happens only once when the button is clicked
+    document.getElementById('checkout-form').addEventListener('submit', function(e) {
+      var submitButton = document.querySelector('.submit-button');
+
+      // Prevent form submission if no payment method is selected
+      if (submitButton.disabled) {
+        e.preventDefault(); // Prevent form submission
+        alert('Please select a payment method!');
+      }
+    });
+
+    document.querySelectorAll(".option input").forEach(input => {
+          input.addEventListener("change", function () {
+            document.querySelectorAll(".option").forEach(div => div.classList.remove("selected"));
+            this.parentElement.classList.add("selected");
+          });
+        });
+  </script>
+{% else %}
+  <style>
+     #empty_cart{
+      height:50vh;
+      width:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+    }
+  </style>
+  <div id="empty_cart">
+    <p>Your Cart is empty.</p>
+    <a href="{{ shop.url }}">Go To Store</a>
+  </div>
+{% endif %}
