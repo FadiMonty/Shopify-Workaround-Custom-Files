@@ -284,6 +284,9 @@
       width:100% !important;
       margin:0 !important;
     }
+    /* #form-container #payment-container .option#pickup-container {
+      display:none !important;
+    } */
     #form-container #payment-container .option label{
       display:flex !important;
       justify-content:space-between !important;
@@ -319,6 +322,17 @@
       font-size:var(--fontSizeM) !important;
     }
     #form-container #payment-container #cod-banner p{
+      margin-top:1rem !important;
+    }
+    /* #form-container #payment-container #pickup-banner{
+      /* padding:1.4rem !important; */
+      border-radius: 0px 0px 8px 8px !important;
+      background-color:#f4f4f4 !important;
+      width:100% !important;
+      text-align:center !important;
+      font-size:var(--fontSizeM) !important;
+    } */
+    #form-container #payment-container #pickup-banner p{
       margin-top:1rem !important;
     }
     #form-container #payment-container #payment-gateway-banner{
@@ -774,6 +788,34 @@
           console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
         }
       }
+      // else if (document.getElementById('pickup').checked) {
+      //   try {
+      //     const response = await axios.post(`${backend_url}/Merchant/createStorePickupOrder`, data, {
+      //         headers: {
+      //             "Content-Type": "application/json"
+      //         }
+      //     });
+      //     if(response.data.redirect_url){
+      //       fetch('/cart/clear.js', {
+      //         method: 'POST',
+      //         headers: {
+      //           'Content-Type': 'application/json',
+      //         },
+      //       })
+      //       .then(response => response.json())
+      //       .then(data => console.log("Cart cleared!"))
+      //       .catch(error => console.error("Error clearing cart:", error));
+            
+      //       window.location.href=response.data.redirect_url;
+      //     }
+      //     else{
+      //     alert(`Error: ${response.data.errors[0].error_message}`)
+      //     }
+      //   } 
+      //   catch (error) {
+      //     console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
+      //   }
+      // } 
     
     };
     
@@ -873,6 +915,8 @@
         let province = ProvinceInput ? ProvinceInput.value.trim() : "";
       // console.log("Country:",province)
       // console.log("Cart Weight:",cart.total_weight / 1000)
+       var submitButton = document.querySelector('.submit-button');
+      submitButton.disabled = true;
       
       try {
         const response = await axios.post(`${backend_url}/Merchant/getShippingRates`, {"shop_url": shop_url,"country_name":country,"province":province,"cart":cart}, {
@@ -889,7 +933,7 @@
         shipping_name=shipping_rate.name;
         setShipping();
         shipping_state=true;
-         var submitButton = document.querySelector('.submit-button');
+        
         submitButton.disabled = false;
         if(document.getElementById('cod').checked){
           submitButton.textContent = "Complete Payment";
@@ -935,17 +979,24 @@
        // e.preventDefault();
       const CountryInput = document.querySelector('#country');
       let country = CountryInput ? CountryInput.value.trim() : "";
+      // console.log("Country:",country)
       const ProvinceInput=document.querySelector('#province');
       ProvinceInput.style.display = 'none';
-      
+      // const pickupCont=document.querySelector("#form-container #payment-container .option#pickup-container");
+      // pickupCont.style.display="none";
+      // if(country=="LB"){
+      //    console.log("visible");
+      //  pickupCont.setAttribute("style", "display: flex !important");
+      // }else{
+      //    console.log("not visible");
+      //   pickupCont.setAttribute("style", "display: none !important");
+      // }
       try {
         const response = await axios.post(`${backend_url}/Merchant/getProvinces`, {"shop_url": shop_url,"country_name":country}, {
             headers: {
                 "Content-Type": "application/json"
             }
         });
-        // console.log("Shipping Rate:",response.data.shipping_rate)
-        // console.log("Cart Weight:",cart.total_weight)
         
         const provinces=response.data.provinces;
         // console.log("Provinces:",provinces)
@@ -1038,14 +1089,13 @@
                   src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/american_express.C3z4WB9r.svg"
                   alt="American Express"
                 >
-                <!--
-                  <img
+                <img
                     width="38"
                     height="24"
                     src="https://montypaydev.com/global_assets/images/apple-pay1.svg"
                     alt="Apple Pay"
                   >
-                -->
+               
               </div>
             </label>
           </div>
@@ -1055,6 +1105,11 @@
             <label for="cod">Cash on Delivery (COD) </label>
           </div>
           <div id="cod-banner"></div>
+          <!-- <div class="option" id="pickup-container">
+            <input type="radio" id="pickup" name="payment_method" value="pickup">
+            <label for="pickup">Store Pickup </label>
+          </div>
+          <div id="pickup-banner"></div> -->
         </div>
 
         <!-- Initial submit button (default state) -->
@@ -1120,14 +1175,18 @@
   <script>
     // JavaScript to handle button change based on the radio button selection
     document.querySelectorAll('input[name="payment_method"]').forEach(function(radioButton) {
-      radioButton.addEventListener('change', function() {
+      radioButton.addEventListener('change', async function() {
         var submitButton = document.querySelector('.submit-button');
         var codBanner = document.querySelector('#cod-banner')
+        // var pickupBanner = document.querySelector('#pickup-banner')
         var paymentGatewayBanner = document.querySelector('#payment-gateway-banner')
+        // const CountryInput = document.querySelector('#country');
+        // let country = CountryInput ? CountryInput.value.trim() : "";
 
         // Check which radio button is selected and enable the submit button
         if (document.getElementById('cod').checked) {
           paymentGatewayBanner.innerHTML="";
+          // pickupBanner.innerHTML=``
           codBanner.innerHTML=`<p>Cash On Delivery</p>`
           if(shipping_state==false){
             submitButton.textContent = "Please Enter Full Address"; // Cash on Delivery selected
@@ -1138,6 +1197,7 @@
         } 
         else if (document.getElementById('online').checked) {
           codBanner.innerHTML=``
+          // pickupBanner.innerHTML=``
           // paymentGatewayBanner.innerHTML=`Powered By <img src="https://montypaydev.com/global_assets/images/mp_logo_bg_trans.png" alt="MontyPay">`;
           paymentGatewayBanner.innerHTML=`<img src="https://montypaydev.com/global_assets/images/Shopify_module.png" alt="MontyPay"><p>After clicking “Pay now”, you will be redirected to Online Payments powered by MontyPay to complete your purchase securely.</p><img src="https://montypaydev.com/global_assets/images/mp_logo_bg_trans.png" alt="MontyPay">`;
     
@@ -1148,6 +1208,19 @@
             submitButton.textContent = "Pay Now"; // Cash on Delivery selected
           }
         }
+        // else if (document.getElementById('pickup').checked) {
+        //   codBanner.innerHTML=``
+        //   paymentGatewayBanner.innerHTML=``;
+        //   pickupBanner.innerHTML=`<p>Store Pickup</p>`;
+        //   submitButton.disaled=false;
+        //   shipping_state=true;
+        //   submitButton.textContent = "Complete Order";
+        //   shipping=0;
+        //   setShipping();
+        // }
+        // if (!document.getElementById('pickup').checked) {
+        //   await getShippingRates();
+        // }
       });
     });
 
