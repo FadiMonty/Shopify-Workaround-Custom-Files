@@ -7,11 +7,11 @@
   >
   <style>
    :root{
-      --fontSizeP:1.25rem;
-      --fontSizeS:1.4rem;
-      --fontSizeM:1.9rem;
-      --fontSizeL:2.1rem;
-      --hasWallets:flex !important;
+      --fontSizeP:unset;
+      --fontSizeS:unset;
+      --fontSizeM:unset;
+      --fontSizeL:unset;
+      --hasWallets:none !important;
       --hasStorePickup:none !important;
     }
     #page-container{
@@ -185,6 +185,7 @@
     }
 
     #checkout-form input, select{
+      margin:0;
       width: 100% !important;
       padding: 10px !important;
       font-size: var(--fontSizeP) !important;
@@ -205,7 +206,7 @@
     #form-container #delivery-container{
       display:flex !important;
       flex-wrap:wrap !important;
-      gap:1.25rem !important;
+      gap:1rem !important;
     }
 
     #form-container #delivery-container input{
@@ -693,7 +694,9 @@
       let zip = ZipInput ? ZipInput.value.trim() : "";
       let city = CityInput ? CityInput.value.trim() : "";
 
-      console.log("Country:",CountryInput.value)
+      // console.log("Country:",CountryInput.value)
+      var submitButton = document.querySelector('.submit-button');
+      submitButton.disabled = true;
       
       let customer_name = `${first_name} ${last_name}`.trim();
       
@@ -785,6 +788,7 @@
         catch (error) {
           for (const [key, value] of Object.entries(error.response.data)) {
             alert(`${key}:${value}`)
+            submitButton.disabled = false;
           }
         }
       } 
@@ -815,7 +819,8 @@
         } 
         catch (error) {
           for (const [key, value] of Object.entries(error.response.data)) {
-            alert(`${key}:${value}`)
+            alert(`${key}:${value}`);
+            submitButton.disabled = false;
           }
         }
       }
@@ -846,7 +851,8 @@
         } 
         catch (error) {
            for (const [key, value] of Object.entries(error.response.data)) {
-            alert(`${key}:${value}`)
+            alert(`${key}:${value}`);
+             submitButton.disabled = false;
           }
         }
       }
@@ -876,7 +882,8 @@
         } 
         catch (error) {
            for (const [key, value] of Object.entries(error.response.data)) {
-            alert(`${key}:${value}`)
+            alert(`${key}:${value}`);
+             submitButton.disabled = false;
           }
         }
       } 
