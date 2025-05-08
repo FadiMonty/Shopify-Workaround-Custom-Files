@@ -39,27 +39,31 @@
 </style>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-  function getQueryParams() {
+
+      function getQueryParams() {
       const params = new URLSearchParams(window.location.search);
       return Object.fromEntries(params.entries());
   }
-
-  const data = getQueryParams();
-
   // You can now send this data to your server or process it.
   async function getData(){
+
+  const data = getQueryParams();
+    // console.log("Data:",data)
+
     const backend_url="https://shopifyapp.montypay.com:8081"
     // const backend_url="http://localhost:8081"
     
     const shop_url='https://{{ shop.permanent_domain }}'
-  
-    try {
-      const url=`${backend_url}/Order/getSuccessURL`
-      const response = await axios.post(url, {"shop_url":shop_url,"order_id":data.order_id}, {
+
+    if(data.Id){
+       try {
+      const url=`${backend_url}/Order/getWalletSuccessURL`
+      const response = await axios.post(url, {"shop_url":shop_url,"Id":data.Id}, {
           headers: {
               "Content-Type": "application/json"
           }
       });
+      // console.log("Redirect URL:",response.data.order_status_url)
       window.location.href = `${response.data.order_status_url}`;
     } 
     catch (error) {
@@ -68,6 +72,27 @@
         window.location.href = window.location.href;
       },1000)
     }
+    }
+    else{
+       try {
+      const url=`${backend_url}/Order/getSuccessURL`
+      const response = await axios.post(url, {"shop_url":shop_url,"order_id":data.order_id}, {
+          headers: {
+              "Content-Type": "application/json"
+          }
+      });
+      // console.log("Redirect URL:",response.data.order_status_url)
+      window.location.href = `${response.data.order_status_url}`;
+    } 
+    catch (error) {
+      console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
+      setTimeout(()=>{
+        window.location.href = window.location.href;
+      },1000)
+    }
+    }
+  
+   
 }
 
   (async function() {
