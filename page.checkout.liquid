@@ -703,7 +703,7 @@
       
       let data;
       if(discounted){
-        const tempTotal=parseFloat(total) - shipping;
+        const tempTotal=parseFloat(total)
         data = {
           shop_url:shop_url,
           cancel_url: "https://merchantapp.montypay.com/paycancel",
@@ -912,16 +912,14 @@
           if (discountElement) {
             if(coupon_data.value_type==="percentage"){
               if(coupon_data.target_type==="line_item"){ 
-                discountElement.textContent = `${coupon_data.value}% Off These Items`;
-                const formula= 1 + (parseFloat(coupon_data.value)/100);
-                const t={{cart.total_price}} + (shipping*100);
-                const tt=(t *formula)/100;
-                
-                total=parseFloat(tt.toFixed(2));
+                discountElement.textContent = `${coupon_data.value}% Off These Items`
+                const formula= 1 + (parseFloat(coupon_data.value)/100)
+                const tt=({{cart.total_price}} *formula)/100
+                total=tt.toFixed(2)
                 const totalElement = document.getElementById("total-cost");
                 if (totalElement) {
-                  totalElement.textContent = ` ${getCurrencySymbol()}${parseFloat(total)}`;
-                  discounted=true;
+                  totalElement.textContent = ` ${getCurrencySymbol()}${parseFloat(total) + shipping}`
+                  discounted=true
                 } 
                 else {
                     console.error("Shipping method div not found");
@@ -1162,12 +1160,12 @@
                   src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/american_express.C3z4WB9r.svg"
                   alt="American Express"
                 >
-                <img
+                <!-- <img
                     width="38"
                     height="24"
                     src="https://montypaydev.com/global_assets/images/apple-pay1.svg"
                     alt="Apple Pay"
-                  >
+                  > -->
                
               </div>
             </label>
