@@ -1,0 +1,344 @@
+<style>
+  :root{
+    --h1:2.1rem;
+    --p:1.4rem;
+    --h3:1.6rem;
+  }
+  #thank-you-page-container *{
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+      transition: all ease-in-out 0.3s !important;
+  }
+  #thank-you-page-container{
+    display:flex;
+    align-items:start;
+    justify-content:flex-start;
+    flex-wrap:wrap;
+    gap:2.1rem;
+    background-color:#f5f5f5;
+    padding:21px 38px 38px 38px;
+  }
+
+  #thank-you-page-container h3{
+    font-size:var(--h3);
+  }
+   #thank-you-page-container p, #thank-you-page-container span{
+    font-size:var(--p);
+  }
+  #thank-you-page-container #sec0{
+    display:flex;
+    justify-content:flex-start;
+    align-items:start;
+    gap:1rem;
+    width:100%;
+  }
+  #thank-you-page-container #sec0 #back{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:start;
+  }
+  #thank-you-page-container #left, #thank-you-page-container #right{
+    width:calc(50% - 1.05rem);
+    display:flex;
+    flex-direction:column;
+    gap:2.1rem;
+    justify-content:flex-start;
+    align-items:stretch;
+  }
+  #thank-you-page-container #sec0 h1{
+    font-size:var(--h1);
+    padding:0;
+    margin:0;
+  }
+
+  #thank-you-page-container #sec1{
+    /* width:calc(50% - 1.05rem); */
+    background-color: white;
+    border-radius: 12px;
+    padding:21px;
+  }
+  #thank-you-page-container #sec2{
+    /* width:calc(50% - 1.05rem); */
+    background-color: white;
+    border-radius: 12px;
+    padding:21px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    align-items:start;
+    gap:2.1rem;
+  }
+
+  #thank-you-page-container #sec2 .sec2-div:nth-of-type(1){
+    width:100%;
+  }
+  #thank-you-page-container #sec2 .sec2-div{
+    width:calc(50% - 1.05rem)
+  }
+  #thank-you-page-container #sec2 .sec2-div p{
+    margin:0;
+  }
+  
+  #thank-you-page-container #sec3{
+    /* width:calc(50% - 1.05rem); */
+    background-color: white;
+    border-radius: 12px;
+    padding:21px;
+  }
+  #thank-you-page-container #sec4{
+    /* width:calc(50% - 1.05rem); */
+    background-color: white;
+    border-radius: 12px;
+    padding:21px;
+    display:flex;
+    flex-direction:column;
+    align-items: start;
+    justify-content: flex-start;
+    gap:21px;
+  }
+  #thank-you-page-container #sec4 #items .item{
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+  }
+  #thank-you-page-container #sec4 #items .item .imgTitle{
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    gap:14px;
+  }
+  #thank-you-page-container #sec4 #items .item .imgTitle .image{
+    position: relative;
+  }
+  #thank-you-page-container #sec4 #items .item .imgTitle .image img{
+    object-fit:contain;
+  }
+  #thank-you-page-container #sec4 #items .item .imgTitle .image .badge{
+   position:absolute;
+    top:-15px;
+    right:-15px;
+    background-color:#707070;
+    color:white;
+    aspect-ratio:1;
+    border-radius:50%;
+    line-height:0em;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:6px;
+  }
+   #thank-you-page-container #sec4 #subtotal{
+     display:flex;
+     width:100%;
+     justify-content:space-between;
+     align-items:center;
+   }
+   #thank-you-page-container #sec4 #shipping{
+     display:flex;
+     width:100%;
+     justify-content:space-between;
+     align-items:center;
+   }
+   #thank-you-page-container #sec4 #total{
+     display:flex;
+     width:100%;
+     justify-content:space-between;
+     align-items:center;
+   }
+   #thank-you-page-container #sec4 #total span{
+     font-weight:bold;
+     font-size:1.9rem;
+   }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const backend_url="https://shopifyapp.montypay.com:8081"
+  // const backend_url="http://localhost:8081"  
+  const shop_url='https://{{ shop.permanent_domain }}'
+  
+  function getQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    return Object.fromEntries(params.entries());
+  }
+  function formatDate(input) {
+  const date = new Date(input);
+  const options = { month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
+  function renderCartItems(items,symbol) {
+  const container = document.getElementById('items');
+  container.innerHTML = ''; // Clear previous items
+
+  items.forEach(item => {
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'item';
+
+    itemDiv.innerHTML = `
+      <div class="imgTitle">
+        <div class="image">
+          <img
+            src="${item.image_src}"
+            loading="eager"
+            alt="${item.featured_image?.alt || ''}"
+            width="64"
+            height="64"
+          >
+          <div class="badge">${item.quantity}</div>
+        </div>
+        <p>${item.name}</p>
+      </div>
+      <span>${symbol}${item.price}</span>
+    `;
+
+    container.appendChild(itemDiv);
+  });
+}
+
+  function displayData(order){
+      const order_id= document.querySelector("#order-id");
+        const confirmed_at= document.querySelector("#confirmed-at");
+        const sec1_span= document.querySelector("#sec1 span");
+        const contact_info= document.querySelector("#contact-info p");
+        const shipping_address= document.querySelector("#shipping-address p");
+        const billing_address= document.querySelector("#billing-address p");
+        const shipping_method= document.querySelector("#shipping-method p");
+        const sec3= document.querySelector("#sec3");
+        const subtotal= document.querySelector("#subtotal");
+        const shipping= document.querySelector("#shipping");
+        const total= document.querySelector("#total");
+         
+         order_id.innerHTML=`Order ${order.name}`
+         
+         confirmed_at.innerText=`Confirmed ${formatDate(order.updated_at)}`
+         
+         sec1_span.innerHTML=`${formatDate(order.updated_at)}`
+         
+         contact_info.innerHTML=`${order.email}`
+
+         shipping_address.innerHTML=`
+           <p>${order.customer_name}</p>
+           <p>${order.address1} ${order.address2}</p>
+           <p>${order.city} ${order.zip}</p>
+           <p>${order.country}</p>
+           <p>${order.phone}</p>
+         `
+         billing_address.innerHTML=`
+           <p>${order.customer_name}</p>
+           <p>${order.address1} ${order.address2}</p>
+           <p>${order.city} ${order.zip}</p>
+           <p>${order.country}</p>
+           <p>${order.phone}</p>
+         `
+         shipping_method.innerHTML=`${order.shipping_lines[0].title}`
+
+         sec3.innerHTML=`<p>${order.symbol}${order.current_total_price}</p>`
+         
+         renderCartItems(order.line_items,order.symbol)
+
+         subtotal.innerHTML=`<span>Subtotal</span><span>${order.symbol}${order.total_line_items_price}</span>`
+         shipping.innerHTML=`<span>Shipping</span><span>${order.symbol}${order.shipping_lines[0].discounted_price}</span>`
+         total.innerHTML=`<span>Total</span><span>${order.symbol}${order.current_total_price}</span>`
+  }
+
+  async function getData(){
+
+  const data = getQueryParams();
+    if(data.id){
+      try {
+          const url=`${backend_url}/Order/getByOrderId`
+          const response = await axios.post(url, {"shop_url":shop_url,"order_id":data.id}, {
+              headers: {
+                  "Content-Type": "application/json"
+              }
+          });
+         const order= response.data.order;
+          // window.location.href = `${response.data.order_status_url}`;
+          displayData(order)
+      } 
+      catch (error) {
+        console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
+      }
+    }
+    else{
+       try {
+        const url=`${backend_url}/Order/getSuccessURL`
+        const response = await axios.post(url, {"shop_url":shop_url,"order_id":data.order_id}, {
+          headers: {
+              "Content-Type": "application/json"
+          }
+      });
+        const completed_order_id=response.data.completed_order_id
+        try{
+          const url=`${backend_url}/Order/getThankYouData`
+          const response = await axios.post(url, {"shop_url":shop_url,"order_id":completed_order_id}, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+          const order=response.data.order;
+          displayData(order)
+         }
+        catch(error){
+           console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
+         }
+    } 
+       catch (error) {
+        console.error("Error creating MontyPay session:", error.response ? error.response.data : error.message);
+        setTimeout(()=>{
+          window.location.href = window.location.href;
+        },1000)
+    }
+    }
+}
+
+  (async function() {
+      await getData();
+    })();
+</script>
+
+<div id="thank-you-page-container">
+    <div id="sec0">
+      <a href="https://{{ shop.domain }}">
+        <img src="https://montypaydev.com/global_assets/images/left-arrow.svg" alt="back" width="18px" height="18px">  
+      </a>
+    <div id="back">
+      <h1 id="order-id"></h1>
+    <p id="confirmed-at" style="margin: 0;"></p>
+    </div>
+  </div>
+  <div id="left">
+    <div id="sec1">
+    <h3>Confirmed</h3>
+    <span></span>
+    <p>We've received your order</p>
+  </div>
+    <div id="sec2">
+    <div class="sec2-div" id="contact-info">
+      <h3>Contact information</h3>
+      <p></p>
+    </div>
+    <div class="sec2-div" id="shipping-address">
+      <h3>Shipping address</h3>
+      <p></p>
+    </div>
+    <div class="sec2-div" id="billing-address">
+      <h3>Billing address</h3>
+      <p></p>
+    </div>
+    <div class="sec2-div" id="shipping-method">
+      <h3>Shipping method</h3>
+      <p></p>
+    </div>
+  </div>
+  </div>
+  <div id="right">
+    <div id="sec3"></div>
+  <div id="sec4">
+     <div id="items"></div>
+     <div id="subtotal"></div>
+     <div id="shipping"></div>
+     <div id="total"></div>
+  </div>
+  </div>
+</div>
