@@ -58,7 +58,7 @@ async function BuyNowRedirect() {
   // const backend_url = "http://localhost:8081";
   const currentURL = new URL(window.location.href);
 
-  const shop_url = currentURL.origin;
+  const shop_url = "https://example.myshopify.com";
   const pathSegments = currentURL.pathname.split("/");
   const handle = pathSegments[pathSegments.length - 1];
 
