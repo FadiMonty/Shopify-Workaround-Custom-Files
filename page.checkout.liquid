@@ -532,8 +532,8 @@
     let shipping=0;
     let shipping_name="Enter your shipping address to view available shipping"
     let shipping_state=false;
-    // const backend_url="http://localhost:8081";
-    const backend_url="https://shopifyapp.montypay.com:8081";
+    const backend_url="http://localhost:8081";
+    // const backend_url="https://shopifyapp.montypay.com:8081";
     const cart={{cart|json}};
     // console.log("Cart:",cart)
     
@@ -712,8 +712,8 @@
         data = {
           shop_url:shop_url,
           cancel_url: "https://merchantapp.montypay.com/paycancel",
-          success_url: `${shop_url}/pages/callback`,
-          // success_url: `${shop_url}/pages/thank-you`,
+          // success_url: `${shop_url}/pages/callback`,
+          success_url: `${shop_url}/pages/thank-you`,
           order: {
             amount: tempTotal,
             currency: cart.currency
@@ -742,8 +742,8 @@
         data = {
           shop_url:shop_url,
           cancel_url: "https://merchantapp.montypay.com/paycancel",
-          success_url: `${shop_url}/pages/callback`,
-          // success_url: `${shop_url}/pages/thank-you`,
+          // success_url: `${shop_url}/pages/callback`,
+          success_url: `${shop_url}/pages/thank-you`,
           order: {
             amount: intToFloat(cart.total_price),
             currency: cart.currency
@@ -787,13 +787,27 @@
             .catch(error => console.error("Error clearing cart:", error));
             
             window.location.href=response.data.redirect_url;
-            // window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
           }
+            else if(!response.data.redirect_url && response.data.order){
+                fetch('/cart/clear.js', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                })
+                .then(response => response.json())
+                .then(data => console.log("Cart cleared!"))
+                .catch(error => console.error("Error clearing cart:", error));
+                
+                window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
+            }
           else{
+            console.log("Response Data:",response)
           alert(`Error: ${response.data.errors[0].error_message}`)
           }
         } 
         catch (error) {
+          console.log(error)
           for (const [key, value] of Object.entries(error.response.data)) {
             alert(`${key}:${value}`)
             submitButton.disabled = false;
@@ -821,8 +835,22 @@
             
             window.location.href=response.data.redirect_url;
           }
+          else if(!response.data.redirect_url && response.data.order){
+                fetch('/cart/clear.js', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                })
+                .then(response => response.json())
+                .then(data => console.log("Cart cleared!"))
+                .catch(error => console.error("Error clearing cart:", error));
+                
+                window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
+            }
           else{
-            alert(`Error: ${response.data.errors[0].error_message}`)
+            console.log("Response Data:",response)
+          alert(`Error: ${response.data.errors[0].error_message}`)
           }
         } 
         catch (error) {
@@ -851,11 +879,25 @@
             .then(data => console.log("Cart cleared!"))
             .catch(error => console.error("Error clearing cart:", error));
             
-            window.location.href=response.data.redirect_url;
-            // window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
+            // window.location.href=response.data.redirect_url;
+            window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
           }
+           else if(!response.data.redirect_url && response.data.order){
+                fetch('/cart/clear.js', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                })
+                .then(response => response.json())
+                .then(data => console.log("Cart cleared!"))
+                .catch(error => console.error("Error clearing cart:", error));
+                
+                window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
+            }
           else{
-            alert(`Error: ${response.data.errors[0].error_message}`)
+            console.log("Response Data:",response)
+          alert(`Error: ${response.data.errors[0].error_message}`)
           }
         } 
         catch (error) {
@@ -883,10 +925,24 @@
             .then(data => console.log("Cart cleared!"))
             .catch(error => console.error("Error clearing cart:", error));
             
-            window.location.href=response.data.redirect_url;
-            // window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
+            // window.location.href=response.data.redirect_url;
+            window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
           }
+         else if(!response.data.redirect_url && response.data.order){
+                fetch('/cart/clear.js', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                })
+                .then(response => response.json())
+                .then(data => console.log("Cart cleared!"))
+                .catch(error => console.error("Error clearing cart:", error));
+                
+                window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
+            }
           else{
+            console.log("Response Data:",response)
           alert(`Error: ${response.data.errors[0].error_message}`)
           }
         } 
