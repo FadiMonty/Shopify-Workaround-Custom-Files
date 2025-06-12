@@ -713,6 +713,7 @@
           shop_url:shop_url,
           cancel_url: "https://merchantapp.montypay.com/paycancel",
           success_url: `${shop_url}/pages/callback`,
+          // success_url: `${shop_url}/pages/thank-you`,
           order: {
             amount: tempTotal,
             currency: cart.currency
@@ -742,6 +743,7 @@
           shop_url:shop_url,
           cancel_url: "https://merchantapp.montypay.com/paycancel",
           success_url: `${shop_url}/pages/callback`,
+          // success_url: `${shop_url}/pages/thank-you`,
           order: {
             amount: intToFloat(cart.total_price),
             currency: cart.currency
@@ -785,6 +787,7 @@
             .catch(error => console.error("Error clearing cart:", error));
             
             window.location.href=response.data.redirect_url;
+            // window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
           }
           else{
           alert(`Error: ${response.data.errors[0].error_message}`)
@@ -849,6 +852,7 @@
             .catch(error => console.error("Error clearing cart:", error));
             
             window.location.href=response.data.redirect_url;
+            // window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
           }
           else{
             alert(`Error: ${response.data.errors[0].error_message}`)
@@ -880,6 +884,7 @@
             .catch(error => console.error("Error clearing cart:", error));
             
             window.location.href=response.data.redirect_url;
+            // window.location.href=`${shop_url}/pages/thank-you?id=${response.data.order.id}`;
           }
           else{
           alert(`Error: ${response.data.errors[0].error_message}`)
