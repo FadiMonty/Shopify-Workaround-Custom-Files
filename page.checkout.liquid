@@ -1184,15 +1184,26 @@
       const ProvinceInput=document.querySelector('#province');
       ProvinceInput.style.display = 'none';
       // Uncomment the following code to Activate store Pickup
-      /*const pickupCont=document.querySelector("#form-container #payment-container .option#pickup-container");
+      /* const pickupCont=document.querySelector("#form-container #payment-container .option#pickup-container");
       pickupCont.style.display="none";
-      if(country=="LB"){
+      if(country=="{{ shop.address.country_code }}"){
          console.log("visible");
        pickupCont.setAttribute("style", "display: flex !important");
-      }else{
+      }
+      else{
          console.log("not visible");
         pickupCont.setAttribute("style", "display: none !important");
       }*/
+       const CODCont=document.querySelector("#form-container #payment-container .option#cod-container");
+      CODCont.style.display="none";
+      if(country=="{{ shop.address.country_code }}"){
+         console.log("visible");
+       CODCont.setAttribute("style", "display: flex !important");
+      }
+      else{
+         console.log("not visible");
+        CODCont.setAttribute("style", "display: none !important");
+      }
       try {
         const response = await axios.post(`${backend_url}/Merchant/getProvinces`, {"shop_url": shop_url,"country_name":country}, {
             headers: {
@@ -1307,7 +1318,7 @@
             <input type="radio" id="cod" name="payment_method" value="cod">
             <label for="cod">Cash on Delivery (COD) </label>
           </div>
-          <div id="cod-banner"></div>
+          <div id="cod-banner" id="cod-container"></div>
           <div class="option" id="wallets-option">
             <input type="radio" id="wallet" name="payment_method" value="wallet">
             <label for="wallet">Wallets</label>
