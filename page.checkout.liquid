@@ -712,8 +712,8 @@
         data = {
           shop_url:shop_url,
           cancel_url: "https://merchantapp.montypay.com/paycancel",
-          // success_url: `${shop_url}/pages/callback`,
-          success_url: `${shop_url}/pages/thank-you`,
+          success_url: `${shop_url}/pages/callback`,
+          //success_url: `${shop_url}/pages/thank-you`,
           order: {
             amount: tempTotal,
             currency: cart.currency
@@ -742,8 +742,8 @@
         data = {
           shop_url:shop_url,
           cancel_url: "https://merchantapp.montypay.com/paycancel",
-          // success_url: `${shop_url}/pages/callback`,
-          success_url: `${shop_url}/pages/thank-you`,
+          success_url: `${shop_url}/pages/callback`,
+          // success_url: `${shop_url}/pages/thank-you`,
           order: {
             amount: intToFloat(cart.total_price),
             currency: cart.currency
